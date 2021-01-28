@@ -49,6 +49,22 @@ uint16_t reg[R_COUNT];
 /*
  * create an enum to store the opcodes
  * opcodes are the numbers associated with the instructions 
+ * OP_BR: branch
+ * OP_ADD: add
+ * OP_LD: load
+ * OP_ST: store
+ * OP_JSR: jump register
+ * OP_AND: bitwise and
+ * OP_LDR: load register
+ * OP_STR: store register
+ * OP_RTI: unused
+ * OP_NOT: bitwise not 
+ * OP_LDI: load indirect
+ * OP_STI: store indirect
+ * OP_JMP: jump
+ * OP_RES: reserved (unused)
+ * OP_LEA: load effective address
+ * OP_TRAP: execute trap
  */
 enum 
 {
@@ -70,4 +86,34 @@ enum
     OP_TRAP = 15
 };
 
+/*
+ * create an enum for the condition flags
+ * these indicate the sign for the last calculation
+ * FL_POS: last calculation was positive
+ * FL_ZRO: last calculation was 0
+ * FL_NEG: last calculation was negative
+ */
+enum 
+{
+    FL_POS = 1 << 0,
+    FL_ZRO = 1 << 1,
+    FL_NEG = 1 << 2
+};
+
+/*
+ * this is the main bulk of the virtual machine logic
+ * it handles the execution of the pieces of code passed into the emulator
+ * logic is as follows:
+ * 1. load one instruction from memory at the address of the PC register
+ * 2. increment the PC register
+ * 3. look at the opcode to determine which type of instruction it should perform
+ * 4. perform the instruction using the parameters in the instruction
+ * 5. go back to step 1
+ */
+int main(int argc, const char* argv[])
+{
+    enum { PC_START = 0x3000};
+    // the hex value is used to iterate through the array not with indices, but with raw memory values
+    reg[R_PC] = PC_START;
+}
 
