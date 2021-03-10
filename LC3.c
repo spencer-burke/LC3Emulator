@@ -190,7 +190,17 @@ int main(int argc, const char* argv[])
                 {LD, /*7*/}
                 break;
             case OP_LDI:
-                {LDI, /*6*/}
+                { 
+                    // destination register (DR)
+                    uint16_t r0 = (instr >> 9) & 0x7;
+
+                    // PC offset 9
+                    uint16_t pc_offset = sign_extend(instr & 0x1FF, 9);
+
+                    // ad pc_offset to the current PC, look at that memory location to get the final address
+                    reg[r0] = mem_read(mem_read(reg[R_PC] + pc_offset));
+                    update_falgs(r0);
+                }
                 break;
             case OP_LDR:
                 {LDR, /*7*/}
@@ -236,3 +246,4 @@ void update_flags(uint16_t r)
     else
         reg[R_COND] = FL_POS;
 }
+
