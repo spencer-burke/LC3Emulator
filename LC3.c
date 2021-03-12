@@ -172,10 +172,19 @@ int main(int argc, const char* argv[])
                 }
                 break;
             case OP_AND:
-                {AND, /*7*/}
+                {
+
+                }
                 break;
             case OP_NOT:
-                {NOT, /*7*/}
+                {
+                    //destination register (DR)
+                    uint16_t r0 = (intstr >> 9) & 0x7;
+                    //first operand (SR1)
+                    uint16_t r1 = (instr >> 6) & 0x7;
+                    // whether the instruction is in immediate mode
+                    uint16_t imm_flag = (instr >> 5) & 0x1;
+                }
                 break;
             case OP_BR:
                 {BR, /*7*/}
