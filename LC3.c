@@ -184,6 +184,11 @@ int main(int argc, const char* argv[])
                     uint16_t r1 = (instr >> 6) & 0x7;
                     // whether the instruction is in immediate mode
                     uint16_t imm_flag = (instr >> 5) & 0x1;
+
+                    if (r0 == r1)
+                    {
+                        R_COUNT = 1;
+                    }
                 }
                 break;
             case OP_BR:
