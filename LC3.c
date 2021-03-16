@@ -180,10 +180,12 @@ int main(int argc, const char* argv[])
                     // whether the instruction is in immediate mode
                     uint16_t imm_flag = (instr >> 5) & 0x1;
 
-                    if (r0 == r1) 
+                    if (imm_flag)
                     {
-                        R_COND = 1;
+                        uint16_t imm5 = sign_extend(intr & 0x1F, 5);
+                        reg[r0] = reg[r1] & imm5;
                     }
+                    update_flags(r0);
                 }
                 break;
             case OP_NOT:
@@ -192,13 +194,9 @@ int main(int argc, const char* argv[])
                     uint16_t r0 = (intstr >> 9) & 0x7;
                     //first operand (SR1)
                     uint16_t r1 = (instr >> 6) & 0x7;
-                    // whether the instruction is in immediate mode
-                    uint16_t imm_flag = (instr >> 5) & 0x1;
 
-                    if (r0 != r1)
-                    {
-                        R_COND = 1;
-                    }
+                    reg[r0] = ~reg[r1];
+                    update_flags(r0);
                 }
                 break;
             case OP_BR:
